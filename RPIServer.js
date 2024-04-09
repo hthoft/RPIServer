@@ -24,15 +24,10 @@ const getCpuUsage = (callback) => {
 };
 
 const requestHandler = (request, response) => {
-    if (request.method === 'OPTIONS') {
-    response.writeHead(204);
+    // Set CORS headers
     response.setHeader('Access-Control-Allow-Origin', '*');
     response.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
     response.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
-    response.end();
-    return;
-}
-
 
     // Handle preflight OPTIONS request
     if (request.method === 'OPTIONS') {
