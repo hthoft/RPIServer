@@ -24,17 +24,19 @@ const getCpuUsage = (callback) => {
 };
 
 const requestHandler = (request, response) => {
-    // Set CORS headers for every response
+    // Set CORS headers
     response.setHeader('Access-Control-Allow-Origin', '*');
-    response.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET');
-    response.setHeader('Access-Control-Allow-Headers', '*');
+    response.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+    response.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
 
+    // Handle preflight OPTIONS request
     if (request.method === 'OPTIONS') {
-        response.writeHead(204); // No content for pre-flight request
+        response.writeHead(204); // No content
         response.end();
         return;
     }
 
+    // Handle other requests
     if (request.url === "/reboot") {
         console.log('Received request to reboot the system');
 
@@ -77,7 +79,6 @@ const requestHandler = (request, response) => {
                     return;
                 }
 
-                // Respond with JSON data including system information
                 response.writeHead(200, { 'Content-Type': 'application/json' });
                 response.end(JSON.stringify({
                     cpuTemperature: temperature,
